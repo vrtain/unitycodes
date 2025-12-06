@@ -1,0 +1,93 @@
+using NUnit.Framework;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class RandomSpawner : MonoBehaviour
+{
+
+    public List<GameObject> spawnPool;
+    public GameObject quad;
+
+    public float timeToSpawn, spawnCountdown;
+
+    float[] values = {1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f, 10f, 11f, 12f, 13f, 14f, 15f};
+
+
+    void Start()
+    {
+
+        
+        
+        spawnCountdown = timeToSpawn;
+        timeToSpawn = Random.Range(5f, values.Length);
+
+    }
+
+    void Update()
+    {
+        spawnCountdown -= Time.deltaTime;
+
+        if (Time.deltaTime > 0f)
+        {
+            StartCoroutine(SpawnDelay());
+        }
+    }
+
+   
+
+    IEnumerator SpawnDelay()
+    {
+        
+        GameObject[] survivorWeapon = GameObject.FindGameObjectsWithTag("SurvivorWeapon");
+        int numberOfWeapons = survivorWeapon.Length;
+
+        //float waitSeconds;
+        
+   
+
+        if (numberOfWeapons < 3 && spawnCountdown <= 0)
+        {
+
+            SpawnObjects();
+            timeToSpawn = Random.Range(0, values.Length);           
+            spawnCountdown = timeToSpawn;
+            
+        }
+        else if (numberOfWeapons == 3)
+        {
+            spawnCountdown = Random.Range(5f, values.Length);
+        }
+        yield return null;
+
+    }
+    
+
+    public void SpawnObjects()
+    {
+        int randomItem = 0;
+        GameObject toSpawn;
+        MeshCollider mC = quad.GetComponent<MeshCollider>();
+
+        float screenX = 0;
+        float screenY = 0;
+
+        Vector2 pos;
+
+      
+        randomItem = Random.Range(0, spawnPool.Count);
+
+        toSpawn = spawnPool[randomItem];
+
+        screenX = Random.Range(mC.bounds.min.x, mC.bounds.max.x);
+        screenY = Random.Range(mC.bounds.min.y, mC.bounds.max.y);
+
+        pos = new Vector2(screenX, screenY);
+        Instantiate(toSpawn, pos, toSpawn.transform.rotation);
+
+
+    }
+
+    
+
+}
