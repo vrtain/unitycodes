@@ -1,0 +1,45 @@
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class PlayerControl : MonoBehaviour
+{
+
+    public float movSpeed = 1.0f;
+
+    float speedX = 1.0f;
+    float speedY = 1.0f;
+
+    Rigidbody2D rb;
+    
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+
+    }
+
+   
+    void Update()
+    {
+        
+
+    }
+
+    private void FixedUpdate()
+    {
+        MovePlayer();
+
+       
+
+    }
+
+    void MovePlayer()
+    {
+        speedX = Input.GetAxisRaw("Horizontal") * movSpeed;
+        speedY = Input.GetAxisRaw("Vertical") * movSpeed;
+        rb.linearVelocity = new Vector2 (speedX, speedY);  
+    }
+
+   
+
+}
