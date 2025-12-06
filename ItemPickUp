@@ -1,0 +1,40 @@
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class ItemPickUpScript : MonoBehaviour
+{
+    public GameObject Target;
+    
+    
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+
+    }
+    private void FixedUpdate()
+    {
+        Vector2 targetVector = Target.transform.position;
+        Vector2 myVector = transform.position;
+
+        float distanceV = Vector2.Distance(myVector, targetVector);
+        transform.position = Vector2.MoveTowards(transform.position, Target.transform.position, distanceV);
+
+        
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        
+
+        if (collider.CompareTag("SurvivorWeapon"))
+        {
+            Debug.Log("Picked up");
+            collider.gameObject.SetActive(false);
+        }
+
+    }
+
+}
+            
